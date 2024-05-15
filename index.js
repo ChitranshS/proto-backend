@@ -65,7 +65,7 @@ app.post('/robots/insert', async (req, res) => {
     }
 });
 
-app.get('/robots/name/:name', async (req, res) => {
+app.get('/:name', async (req, res) => {
     try {
         const { name } = req.params;
         const robot = await Robot.findOne({ name }).lean().exec();
