@@ -101,7 +101,9 @@ app.get('/robots/name/:name', async (req, res) => {
     }
 });
 
-
+app.get('/',(req,res)=>{
+    console.log('Working');
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
