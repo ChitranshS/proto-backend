@@ -102,7 +102,7 @@ app.get('/robots/name/:name', async (req, res) => {
 });
 
 app.get('/',(req,res)=>{
-    console.log('Working');
+    res.json({message:"Running"});
 });
 
 app.listen(PORT, () => {
