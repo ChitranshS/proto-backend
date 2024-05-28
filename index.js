@@ -14,7 +14,15 @@ app.use(express.json());
 const cors = require('cors');
 app.use(cors());
 
-
+app.get('/robots/names', async (req, res) => {
+    try {
+      const robots = await Robot.find({}, 'name'); // Fetch only the 'name' field
+      res.status(200).json(robots);
+    } catch (err) {
+      console.error('Failed to fetch robot names:', err);
+      res.status(500).json({ message: 'Failed to fetch robot names', error: err.message });
+    }
+  });
 // Route to insert a new robot and its associated data
 app.post('/robots/insert', async (req, res) => {
     const session = await mongoose.startSession();
