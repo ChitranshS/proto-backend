@@ -19,51 +19,35 @@ app.use(cors());
 app.post('/robots/insert', async (req, res) => {
     const session = await mongoose.startSession();
     try {
-        session.startTransaction();
-        const {
-            robotData,
-            manipulators = [],
-            controlModules = [],
-            floors = [],
-            basics = [],
-            controllers = [],
-            additionals = [],
-            applications = [],
-            robotwares = []
-        } = req.body;
-
-        // Insert Robot
-        const robot = await new Robot(robotData).save({ session });
-
-        // Insert related data
-        const manipulatorDocs = manipulators.map(data => ({ ...data, robot: robot._id }));
-        const controlModuleDocs = controlModules.map(data => ({ ...data, robot: robot._id }));
-        const floorDocs = floors.map(data => ({ ...data, robot: robot._id }));
-        const basicDocs = basics.map(data => ({ ...data, robot: robot._id }));
-        const controllerDocs = controllers.map(data => ({ ...data, robot: robot._id }));
-        const additionalDocs = additionals.map(data => ({ ...data, robot: robot._id }));
-        const applicationDocs = applications.map(data => ({ ...data, robot: robot._id }));
-        const robotwareDocs = robotwares.map(data => ({ ...data, robot: robot._id }));
-
-        await Manipulator.insertMany(manipulatorDocs, { session });
-        await ControlModule.insertMany(controlModuleDocs, { session });
-        await Floor.insertMany(floorDocs, { session });
-        await Basic.insertMany(basicDocs, { session });
-        await Controller.insertMany(controllerDocs, { session });
-        await Additional.insertMany(additionalDocs, { session });
-        await Application.insertMany(applicationDocs, { session });
-        await Robotware.insertMany(robotwareDocs, { session });
-
-        await session.commitTransaction();
-        res.status(201).json({ message: 'Robot and associated data inserted successfully' });
+      session.startTransaction();
+  
+      const { robotData, Manipulators, 'Control Modules': controlModules, Floors, Basics, Controllers, 'Additional Options': additionals, Applications, Robotwares } = req.body;
+  
+      // Insert Robot
+      const robot = await new Robot(robotData).save({ session });
+  
+      // Prepare related data
+      const prepareDocs = (docs) => docs.map(data => ({ ...data, robot: robot._id }));
+  
+      await Manipulator.insertMany(prepareDocs(Manipulators), { session });
+      await ControlModule.insertMany(prepareDocs(controlModules), { session });
+      await Floor.insertMany(prepareDocs(Floors), { session });
+      await Basic.insertMany(prepareDocs(Basics), { session });
+      await Controller.insertMany(prepareDocs(Controllers), { session });
+      await Additional.insertMany(prepareDocs(additionals), { session });
+      await Application.insertMany(prepareDocs(Applications), { session });
+      await Robotware.insertMany(prepareDocs(Robotwares), { session });
+  
+      await session.commitTransaction();
+      res.status(201).json({ message: 'Robot and associated data inserted successfully' });
     } catch (err) {
-        await session.abortTransaction();
-        console.error('Failed to insert data:', err);
-        res.status(500).json({ message: 'Failed to insert data', error: err.message, stack: err.stack });
+      await session.abortTransaction();
+      console.error('Failed to insert data:', err);
+      res.status(500).json({ message: 'Failed to insert data', error: err.message, stack: err.stack });
     } finally {
-        session.endSession();
+      session.endSession();
     }
-});
+  });
 
 app.get('/robots/name/:name', async (req, res) => {
     try {
