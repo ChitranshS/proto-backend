@@ -2,13 +2,15 @@ const mongoose = require('mongoose');
 
 const robotSchema =  new mongoose.Schema({
     Id: String,
-    name: String
+    name: String,
+    variant: { type: String, required: false }
   });
   
   const manipulatorSchema = new mongoose.Schema({
    Id: { type: String, required: true },
     name: { type: String, required: true },
-    
+    optionInfo: { type: String, required: false },
+
     // Reference to the Robot collection
     robot: {
         type: mongoose.Schema.Types.ObjectId,
@@ -26,7 +28,8 @@ const robotSchema =  new mongoose.Schema({
   const controlModuleSchema = new mongoose.Schema({
     Id: { type: String, required: true },
     name: { type: String, required: true },
-    
+    optionInfo: { type: String, required: false },
+
     // Reference to the Robot collection
     robot: {
         type: mongoose.Schema.Types.ObjectId,
@@ -44,7 +47,8 @@ const robotSchema =  new mongoose.Schema({
   const robotwareSchema = new mongoose.Schema({
     Id: { type: String, required: true },
     name: { type: String, required: true },
-    
+    optionInfo: { type: String, required: false },
+
     // Reference to the Robot collection
     robot: {
         type: mongoose.Schema.Types.ObjectId,
@@ -62,7 +66,8 @@ const robotSchema =  new mongoose.Schema({
   const applicationSchema = new mongoose.Schema({
     Id: { type: String, required: true },
     name: { type: String, required: true },
-    
+    optionInfo: { type: String, required: false },
+
     // Reference to the Robot collection
     robot: {
         type: mongoose.Schema.Types.ObjectId,
@@ -80,7 +85,8 @@ const robotSchema =  new mongoose.Schema({
   const additionalSchema = new mongoose.Schema({
     Id: { type: String, required: true },
     name: { type: String, required: true },
-    
+    optionInfo: { type: String, required: false },
+
     // Reference to the Robot collection
     robot: {
         type: mongoose.Schema.Types.ObjectId,
@@ -98,7 +104,8 @@ const robotSchema =  new mongoose.Schema({
   const controllerSchema = new mongoose.Schema({
     Id: { type: String, required: true },
     name: { type: String, required: true },
-    
+    optionInfo: { type: String, required: false },
+
     // Reference to the Robot collection
     robot: {
         type: mongoose.Schema.Types.ObjectId,
@@ -116,7 +123,8 @@ const robotSchema =  new mongoose.Schema({
   const basicSchema = new mongoose.Schema({
     Id: { type: String, required: true },
     name: { type: String, required: true },
-    
+    optionInfo: { type: String, required: false },
+
     // Reference to the Robot collection
     robot: {
         type: mongoose.Schema.Types.ObjectId,
@@ -134,7 +142,8 @@ const robotSchema =  new mongoose.Schema({
   const floorSchema = new mongoose.Schema({
     Id: { type: String, required: true },
     name: { type: String, required: true },
-    
+    optionInfo: { type: String, required: false },
+
     // Reference to the Robot collection
     robot: {
         type: mongoose.Schema.Types.ObjectId,
